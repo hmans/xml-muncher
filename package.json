@@ -1,6 +1,6 @@
 {
   "name": "xml-muncher",
-  "version": "0.0.4",
+  "version": "0.0.5",
   "description": "Munches very large XML documents. OmnomnomNOMNOM",
   "main": "dist/xml-muncher.cjs.js",
   "module": "dist/xml-muncher.esm.js",
@@ -18,7 +18,7 @@
     "email": "hendrik@mans.de",
     "url": "https://hmans.dev"
   },
-  "license": "ISC",
+  "license": "MIT",
   "files": [
     "dist"
   ],
