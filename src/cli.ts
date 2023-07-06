@@ -1,18 +1,17 @@
 import { XMLMuncher } from "./XMLMuncher";
 
-console.log("yo");
-
+/* Make sure we can exit cleanly */
 process.on("SIGINT", async function () {
   console.log("Aborting");
   process.exit();
 });
 
-const muncher = new XMLMuncher();
-
-muncher.on("path://feed/job", (job) => {
+function processJob(job: any) {
   console.log(job.title);
-});
+}
 
-await muncher.munchFile("./test/files/medium.xml");
+await new XMLMuncher()
+  .on("path://feed/job", processJob)
+  .munchFile("./test/files/medium.xml");
 
 console.log("Done!");
