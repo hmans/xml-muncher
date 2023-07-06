@@ -7,18 +7,6 @@ type Element = Record<string, any>;
 export class XMLMuncher extends EventEmitter {
   public parser = new expat.Parser("UTF-8");
 
-  constructor() {
-    super();
-  }
-
-  async munch(xml: string) {
-    this.parser.on("startElement", (element, attributes) => {
-      console.dir(attributes);
-    });
-
-    this.parser.write(xml);
-  }
-
   async munchFile(filePath: string) {
     let currentElement: Element = {};
     const stack = new Array<Element>();
