@@ -1,5 +1,11 @@
 # xml-muncher
 
+## 0.0.7
+
+### Patch Changes
+
+- 3a884a6: Consolidate `munchString` into `munch`, which now provides overloads for string and stream inputs
+
 ## 0.0.6
 
 ### Patch Changes
