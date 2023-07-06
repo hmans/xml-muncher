@@ -14,41 +14,47 @@ async function extractElements(xml: string, query: string) {
   return elements;
 }
 
-const extract = (xml: string) => ({
-  query: (query: string) => ({
-    expect: (result: any) => {
-      it("works", async () => {
-        const elements = await extractElements(xml, query);
-        expect(elements).toEqual(result);
-      });
-    },
+const test = (name: string) => ({
+  with: (xml: string) => ({
+    query: (query: string) => ({
+      expect: (result: any) => {
+        it(name, async () => {
+          const elements = await extractElements(xml, query);
+          expect(elements).toEqual(result);
+        });
+      },
+    }),
   }),
 });
 
 describe(XMLMuncher, () => {
-  /* Basic empty elements */
-  extract("<foo />").query("element:foo").expect([{}]);
+  test("Basic empty elements")
+    .with("<foo />")
+    .query("element:foo")
+    .expect([{}]);
 
-  /* Elements with text */
-  extract("<foo>foo</foo>").query("element:foo").expect(["foo"]);
+  test("Elements with text")
+    .with("<foo>foo</foo>")
+    .query("element:foo")
+    .expect(["foo"]);
 
-  /* Elements with nested children */
-  extract("<foo><bar>Hello World</bar></foo>")
+  test("Elements with nested children")
+    .with("<foo><bar>Hello World</bar></foo>")
     .query("element:foo")
     .expect([{ bar: "Hello World" }]);
 
-  /* Directly selecting the child */
-  extract("<foo><bar>Hello World</bar></foo>")
+  test("Directly selecting the child")
+    .with("<foo><bar>Hello World</bar></foo>")
     .query("element:bar")
     .expect(["Hello World"]);
 
-  /* Multiple children of the same name */
-  extract("<items><item>One</item><item>Two</item></items>")
+  test("Multiple children of the same name")
+    .with("<items><item>One</item><item>Two</item></items>")
     .query("element:items")
     .expect([{ item: ["One", "Two"] }]);
 
-  /* Mixed text and element children, wHo doEs tHiS? */
-  extract("<foo>Hello<bar>World</bar></foo>")
+  test("Mixed text and element children, wHo doEs tHiS?")
+    .with("<foo>Hello<bar>World</bar></foo>")
     .query("element:foo")
     .expect([{ "#text": "Hello", bar: "World" }]);
 });
