@@ -89,6 +89,7 @@ export class XMLMuncher extends EventEmitter {
     } else {
       /* Get chunks from the stream and feed them to the parser */
       for await (const data of input) {
+        if (!this.running) break;
         this.munch(data);
       }
     }

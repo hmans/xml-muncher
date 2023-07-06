@@ -15,7 +15,7 @@ muncher.on("path://jobs/job", (job: any) => {
   console.log(`🎉 JOB ${jobs}:`, job.title);
   // console.dir(job);
 
-  if (jobs >= 10) {
+  if (jobs >= 100) {
     muncher.stop();
   }
 });
