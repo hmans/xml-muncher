@@ -1,5 +1,4 @@
 /.vscode
 **/node_modules
 **/dist
-test/files/large.xml
-test/files/medium.xml
+/test/files
