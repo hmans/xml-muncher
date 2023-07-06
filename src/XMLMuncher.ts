@@ -25,26 +25,25 @@ export class XMLMuncher {
       // console.debug("startElement", element, attributes);
 
       /* Create a fresh element, full of hopes and dreams */
-      const newElement: Element = {};
-
-      if (Array.isArray(currentElement[element])) {
-        currentElement[element].push(newElement);
-      } else if (currentElement[element]) {
-        currentElement[element] = [currentElement[element], newElement];
-      } else {
-        currentElement[element] = newElement;
-      }
-
       stack.push(currentElement);
-
-      currentElement = newElement;
+      currentElement = {};
     });
 
     this.parser.on("endElement", (element) => {
       // console.debug("endElement", element);
+      const newElement = currentElement;
       currentElement = stack.pop()!;
 
-      if (element === "job") console.dir(currentElement, { depth: null });
+      /* Sort the new element into the current element */
+      if (currentElement[element] === undefined) {
+        currentElement[element] = newElement;
+      } else if (Array.isArray(currentElement[element])) {
+        currentElement[element].push(newElement);
+      } else {
+        currentElement[element] = [currentElement[element], newElement];
+      }
+
+      if (element === "job") console.dir(newElement, { depth: null });
     });
 
     const input = createReadStream(filePath, {

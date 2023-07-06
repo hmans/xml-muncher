@@ -9,4 +9,4 @@ process.on("SIGINT", async function () {
   process.exit();
 });
 
-muncher.munchFile("./test/files/large.xml");
+muncher.munchFile("./test/files/medium.xml");
