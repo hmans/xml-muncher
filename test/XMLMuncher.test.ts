@@ -16,16 +16,11 @@ function extractElements(xml: string, query: string) {
 
 const given = (xml: string) => ({
   query: (query: string) => ({
-    expect: async (result: any) => {
-      const elements = await extractElements(xml, query);
-      expect(elements).toEqual(result);
-    },
+    expect: (result: any) =>
+      expect(extractElements(xml, query)).toEqual(result),
 
-    expectError: (error?: string) => {
-      expect(async () => {
-        await extractElements(xml, query);
-      }).rejects.toThrowError(error);
-    },
+    expectError: (error?: string) =>
+      expect(() => extractElements(xml, query)).toThrowError(error),
   }),
 });
 
