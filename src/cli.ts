@@ -2,11 +2,16 @@ import { XMLMuncher } from "./XMLMuncher";
 
 console.log("yo");
 
-const muncher = new XMLMuncher();
-
 process.on("SIGINT", async function () {
   console.log("Aborting");
   process.exit();
+});
+
+const muncher = new XMLMuncher();
+
+muncher.on("element:job", (job) => {
+  console.log("Hooray, a job!");
+  console.dir(job, { depth: null });
 });
 
 muncher.munchFile("./test/files/medium.xml");

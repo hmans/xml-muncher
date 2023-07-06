@@ -1,12 +1,15 @@
 import expat from "node-expat";
+import EventEmitter from "node:events";
 import { createReadStream } from "node:fs";
 
 type Element = Record<string, any>;
 
-export class XMLMuncher {
+export class XMLMuncher extends EventEmitter {
   public parser = new expat.Parser("UTF-8");
 
-  constructor() {}
+  constructor() {
+    super();
+  }
 
   async munch(xml: string) {
     this.parser.on("startElement", (element, attributes) => {
@@ -44,7 +47,7 @@ export class XMLMuncher {
         currentElement[element] = [currentElement[element], newElement];
       }
 
-      if (element === "job") console.dir(newElement, { depth: null });
+      this.emit(`element:${element}`, newElement);
     });
 
     this.parser.on("text", (text: string) => {
