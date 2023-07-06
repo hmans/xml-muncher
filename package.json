@@ -15,6 +15,7 @@
     "test:watch": "vitest watch"
   },
   "devDependencies": {
+    "@changesets/cli": "^2.26.2",
     "@preconstruct/cli": "^2.8.1",
     "@types/node": "^20.4.0",
     "@types/node-expat": "^2.3.2",
