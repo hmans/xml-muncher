@@ -1,7 +1,7 @@
 import { describe, expect, test } from "vitest";
 import { XMLMuncher } from "../src/XMLMuncher";
 
-async function extractElements(xml: string, query: string) {
+function extractElements(xml: string, query: string) {
   const elements: any[] = [];
   const muncher = new XMLMuncher();
 
@@ -9,7 +9,7 @@ async function extractElements(xml: string, query: string) {
     elements.push(element);
   });
 
-  await muncher.munch(xml);
+  muncher.munch(xml);
 
   return elements;
 }
