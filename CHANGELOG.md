@@ -1,5 +1,11 @@
 # xml-muncher
 
+## 0.0.10
+
+### Patch Changes
+
+- eeb192d: Munching can now be stopped by invoking the `.stop()` function.
+
 ## 0.0.9
 
 ### Patch Changes
