@@ -2,6 +2,7 @@
   "name": "xml-muncher",
   "version": "0.0.5",
   "description": "Munches very large XML documents. OmnomnomNOMNOM",
+  "type": "module",
   "main": "dist/xml-muncher.cjs.js",
   "module": "dist/xml-muncher.esm.js",
   "repository": {

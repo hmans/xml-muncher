@@ -13,4 +13,6 @@ muncher.on("path://feed/job", (job) => {
   console.log(job.title);
 });
 
-muncher.munchFile("./test/files/large.xml");
+await muncher.munchFile("./test/files/medium.xml");
+
+console.log("Done!");

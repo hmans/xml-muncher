@@ -82,7 +82,7 @@ export class XMLMuncher extends EventEmitter {
   }
 
   async munchFile(filePath: string) {
-    this.munch(
+    await this.munch(
       createReadStream(filePath, {
         encoding: "utf-8",
       })
