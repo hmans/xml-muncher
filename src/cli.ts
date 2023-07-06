@@ -10,7 +10,7 @@ let jobs = 0;
 
 const muncher = new XMLMuncher();
 
-function processJob(job: any) {
+muncher.on("path://jobs/job", (job: any) => {
   jobs++;
   console.log(`🎉 JOB ${jobs}:`, job.title);
   // console.dir(job);
@@ -18,9 +18,7 @@ function processJob(job: any) {
   if (jobs >= 10) {
     muncher.stop();
   }
-}
-
-muncher.on("path://jobs/job", processJob);
+});
 
 await muncher.munchFile("./test/files/stepstone1.xml");
 
