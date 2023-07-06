@@ -11,13 +11,18 @@
   ],
   "scripts": {
     "build": "preconstruct build",
-    "test": "vitest run"
+    "test": "vitest run",
+    "test:watch": "vitest watch"
   },
   "devDependencies": {
     "@preconstruct/cli": "^2.8.1",
     "@types/node": "^20.4.0",
+    "@types/node-expat": "^2.3.2",
     "tsx": "^3.12.7",
     "typescript": "^5.1.6",
     "vitest": "^0.32.4"
+  },
+  "dependencies": {
+    "node-expat": "^2.4.0"
   }
 }

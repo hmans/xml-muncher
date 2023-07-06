@@ -1,0 +1,12 @@
+
+<?xml version="1.0" encoding="UTF-8"?>
+<feed>
+  <item>
+    <title>This is the first item</title>
+    <description>And this is the description of the first item</description>
+  </item>
+  <item>
+    <title>This is the second item</title>
+    <description>And this is the description of the second item</description>
+  </item>
+</feed>

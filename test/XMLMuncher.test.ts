@@ -4,6 +4,7 @@ import { XMLMuncher } from "../src/XMLMuncher";
 
 describe(XMLMuncher, () => {
   it("works", () => {
-    console.log("yay");
+    const muncher = new XMLMuncher();
+    muncher.munch("hello");
   });
 });

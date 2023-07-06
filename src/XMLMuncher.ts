@@ -1,5 +1,11 @@
-import { Readable } from "stream";
+import expat from "node-expat";
 
 export class XMLMuncher {
-  constructor(inStream: Readable) {}
+  public parser = new expat.Parser("UTF-8");
+
+  constructor() {}
+
+  async munch(xml: string) {
+    this.parser.write(xml);
+  }
 }
