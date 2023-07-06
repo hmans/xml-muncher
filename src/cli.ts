@@ -7,11 +7,12 @@ process.on("SIGINT", async function () {
 });
 
 function processJob(job: any) {
-  console.log(job.title);
+  console.log("🎉 JOB:", job.title);
+  console.dir(job);
 }
 
 await new XMLMuncher()
-  .on("path://feed/job", processJob)
-  .munchFile("./test/files/medium.xml");
+  .on("path://jobs/job", processJob)
+  .munchFile("./test/files/stepstone1.xml");
 
 console.log("✅ Done!");
