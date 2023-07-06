@@ -19,6 +19,7 @@ export class XMLMuncher extends EventEmitter {
     const stack = new Array<Element>();
     const nameStack = new Array<string>();
 
+    /* If there's any sort of error, immediately throw. */
     this.parser.on("error", (error) => {
       throw new Error(error);
     });
