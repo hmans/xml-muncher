@@ -65,6 +65,10 @@ export class XMLMuncher extends EventEmitter {
     }
   }
 
+  async munchString(xml: string) {
+    this.parser.write(xml);
+  }
+
   async munchFile(filePath: string) {
     this.munch(
       createReadStream(filePath, {
