@@ -1,5 +1,11 @@
 # xml-muncher
 
+## 0.0.8
+
+### Patch Changes
+
+- 90b53d7: Dummy release to get my release scripts under control. :-)
+
 ## 0.0.7
 
 ### Patch Changes
