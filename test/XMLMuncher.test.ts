@@ -57,4 +57,9 @@ describe(XMLMuncher, () => {
     .with("<foo>Hello<bar>World</bar></foo>")
     .query("element:foo")
     .expect([{ "#text": "Hello", bar: "World" }]);
+
+  test("Attributes")
+    .with('<foo bar="baz" />')
+    .query("element:foo")
+    .expect([{ $bar: "baz" }]);
 });

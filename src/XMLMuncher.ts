@@ -24,6 +24,11 @@ export class XMLMuncher extends EventEmitter {
       stack.push(currentElement);
       nameStack.push(element);
       currentElement = {};
+
+      /* Add attributes to the element */
+      for (const [key, value] of Object.entries(attributes)) {
+        currentElement[`$${key}`] = value;
+      }
     });
 
     this.parser.on("endElement", (element) => {
