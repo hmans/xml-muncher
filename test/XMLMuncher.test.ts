@@ -85,3 +85,5 @@ describe("error handling", () => {
       .query("element:foo")
       .expectError("not well-formed (invalid token)"));
 });
+
+describe.todo("pausing and resuming");
