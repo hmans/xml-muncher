@@ -1,5 +1,11 @@
 # xml-muncher
 
+## 0.0.11
+
+### Patch Changes
+
+- 623fcbc: Separate `munch()` from `munchStream()` again
+
 ## 0.0.10
 
 ### Patch Changes
