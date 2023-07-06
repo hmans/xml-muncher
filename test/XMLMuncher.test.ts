@@ -3,17 +3,23 @@ import fs from "fs";
 import { XMLMuncher } from "../src/XMLMuncher";
 import { buffer } from "stream/consumers";
 
+function extractElements(xml: string, query: string) {
+  const elements: any[] = [];
+  const muncher = new XMLMuncher();
+
+  muncher.on(query, (element) => {
+    elements.push(element);
+  });
+
+  muncher.munchString(xml);
+
+  return elements;
+}
+
 describe(XMLMuncher, () => {
   it("works", async () => {
-    const elements: any[] = [];
-    const muncher = new XMLMuncher();
-
-    muncher.on("element:foo", (element) => {
-      elements.push(element);
-    });
-
-    muncher.munchString("<foo><bar>Hello World</bar></foo>");
-
-    expect(elements).toEqual([{ bar: "Hello World" }]);
+    expect(
+      extractElements("<foo><bar>Hello World</bar></foo>", "element:foo")
+    ).toEqual([{ bar: "Hello World" }]);
   });
 });
