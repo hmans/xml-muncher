@@ -35,7 +35,8 @@ export class XMLMuncher extends EventEmitter {
       let newElement: Element | string = currentElement;
       currentElement = stack.pop()!;
 
-      /* Process element */
+      /* If the element only contains a text attribute and nothing else,
+      let's turn it into a string. */
       if (Object.keys(newElement).length === 1 && newElement["#text"]) {
         newElement = newElement["#text"];
       }
@@ -49,9 +50,11 @@ export class XMLMuncher extends EventEmitter {
         currentElement[element] = [currentElement[element], newElement];
       }
 
+      /* Generate the path for this element */
       const path = "//" + nameStack.join("/");
       nameStack.pop();
 
+      /* Emit events */
       this.emit(`element:${element}`, newElement);
       this.emit(`path:${path}`, newElement);
     });
