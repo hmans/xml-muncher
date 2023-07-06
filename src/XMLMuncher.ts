@@ -5,7 +5,8 @@ import { ReadStream, createReadStream } from "node:fs";
 type Element = Record<string, any>;
 
 export class XMLMuncher extends EventEmitter {
-  public parser: expat.Parser;
+  parser: expat.Parser;
+  running = true;
 
   constructor() {
     super();
@@ -75,27 +76,21 @@ export class XMLMuncher extends EventEmitter {
     });
   }
 
-  async munch(text: string): Promise<void>;
-
-  async munch(stream: ReadStream): Promise<void>;
-
-  async munch(input: ReadStream | string) {
-    if (typeof input === "string") {
-      /* Let's check if the parser is currently writable, and if we're
+  munch(text: string) {
+    /* Let's check if the parser is currently writable, and if we're
       actually running. */
-      if (this.running && this.parser.writable) {
-        this.parser.write(input);
-      }
-    } else {
-      /* Get chunks from the stream and feed them to the parser */
-      for await (const data of input) {
-        if (!this.running) break;
-        this.munch(data);
-      }
+    if (this.running && this.parser.writable) {
+      this.parser.write(text);
     }
   }
 
-  running = true;
+  async munchStream(stream: ReadStream) {
+    /* Get chunks from the stream and feed them to the parser */
+    for await (const data of stream) {
+      if (!this.running) break;
+      this.munch(data);
+    }
+  }
 
   stop() {
     this.running = false;
@@ -103,7 +98,7 @@ export class XMLMuncher extends EventEmitter {
   }
 
   async munchFile(filePath: string) {
-    await this.munch(
+    await this.munchStream(
       createReadStream(filePath, {
         encoding: "utf-8",
       })
