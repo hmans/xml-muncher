@@ -2,7 +2,7 @@ import { createReadStream } from "node:fs";
 import expat from "node-expat";
 import { buffer } from "stream/consumers";
 
-type Element = Record<any, any>;
+type Element = Record<string, any>;
 
 export class XMLMuncher {
   public parser = new expat.Parser("UTF-8");
@@ -18,7 +18,7 @@ export class XMLMuncher {
   }
 
   async munchFile(filePath: string) {
-    let currentElement: Element | Element[] = {};
+    let currentElement: Element = {};
     const stack = new Array<Element>();
 
     this.parser.on("startElement", (element, attributes) => {
@@ -31,8 +31,13 @@ export class XMLMuncher {
 
     this.parser.on("endElement", (element) => {
       // console.debug("endElement", element);
-      const newElement = currentElement;
+      let newElement: Element | string = currentElement;
       currentElement = stack.pop()!;
+
+      /* Process element */
+      if (Object.keys(newElement).length === 1 && newElement["#text"]) {
+        newElement = newElement["#text"];
+      }
 
       /* Sort the new element into the current element */
       if (currentElement[element] === undefined) {
@@ -44,6 +49,12 @@ export class XMLMuncher {
       }
 
       if (element === "job") console.dir(newElement, { depth: null });
+    });
+
+    this.parser.on("text", (text: string) => {
+      if (text.trim() === "") return;
+
+      currentElement["#text"] = text;
     });
 
     const input = createReadStream(filePath, {
