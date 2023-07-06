@@ -9,7 +9,7 @@ async function extractElements(xml: string, query: string) {
     elements.push(element);
   });
 
-  await muncher.munchString(xml);
+  await muncher.munch(xml);
 
   return elements;
 }

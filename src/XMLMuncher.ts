@@ -75,14 +75,18 @@ export class XMLMuncher extends EventEmitter {
     });
   }
 
-  async munch(stream: ReadStream) {
-    for await (const data of stream) {
-      this.parser.write(data);
-    }
-  }
+  async munch(text: string): Promise<void>;
 
-  async munchString(xml: string) {
-    this.parser.write(xml);
+  async munch(stream: ReadStream): Promise<void>;
+
+  async munch(input: ReadStream | string) {
+    if (typeof input === "string") {
+      this.parser.write(input);
+    } else {
+      for await (const data of input) {
+        this.parser.write(data);
+      }
+    }
   }
 
   async munchFile(filePath: string) {
