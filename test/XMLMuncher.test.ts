@@ -86,4 +86,21 @@ describe("error handling", () => {
       .expectError("not well-formed (invalid token)"));
 });
 
-describe.todo("pausing and resuming");
+describe("stopping", () => {
+  test("stopping after n elements", () => {
+    /* Input is a list of 5 items, but we only want the first 3. */
+    const input =
+      "<items><item>1</item><item>2</item><item>3</item><item>4</item><item>5</item></items>";
+    const elements: string[] = [];
+
+    const muncher = new XMLMuncher();
+    muncher.on("element:item", (item) => {
+      elements.push(item);
+      if (elements.length >= 3) muncher.stop();
+    });
+
+    muncher.munch(input);
+
+    expect(elements).toEqual(["1", "2", "3"]);
+  });
+});
