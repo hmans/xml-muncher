@@ -1,7 +1,5 @@
-import { describe, it, expect } from "vitest";
-import fs from "fs";
+import { describe, expect, it } from "vitest";
 import { XMLMuncher } from "../src/XMLMuncher";
-import { buffer } from "stream/consumers";
 
 function extractElements(xml: string, query: string) {
   const elements: any[] = [];
@@ -17,7 +15,7 @@ function extractElements(xml: string, query: string) {
 }
 
 describe(XMLMuncher, () => {
-  it("works", async () => {
+  it("correctly extracts elements", async () => {
     expect(
       extractElements("<foo><bar>Hello World</bar></foo>", "element:foo")
     ).toEqual([{ bar: "Hello World" }]);

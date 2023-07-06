@@ -44,12 +44,11 @@ export class XMLMuncher extends EventEmitter {
         currentElement[element] = [currentElement[element], newElement];
       }
 
-      const selector = nameStack.join(">");
-      console.log(selector);
+      const path = "//" + nameStack.join("/");
       nameStack.pop();
 
       this.emit(`element:${element}`, newElement);
-      this.emit(`selector:${selector}`, newElement);
+      this.emit(`path:${path}`, newElement);
     });
 
     this.parser.on("text", (text: string) => {

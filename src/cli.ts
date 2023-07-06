@@ -9,7 +9,7 @@ process.on("SIGINT", async function () {
 
 const muncher = new XMLMuncher();
 
-muncher.on("selector:feed>job", (job) => {
+muncher.on("path://feed/job", (job) => {
   console.log("Hooray, a job!");
   console.dir(job, { depth: null });
 });
