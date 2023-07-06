@@ -1,6 +1,5 @@
-import { createReadStream } from "node:fs";
 import expat from "node-expat";
-import { buffer } from "stream/consumers";
+import { createReadStream } from "node:fs";
 
 type Element = Record<string, any>;
 
@@ -22,15 +21,12 @@ export class XMLMuncher {
     const stack = new Array<Element>();
 
     this.parser.on("startElement", (element, attributes) => {
-      // console.debug("startElement", element, attributes);
-
       /* Create a fresh element, full of hopes and dreams */
       stack.push(currentElement);
       currentElement = {};
     });
 
     this.parser.on("endElement", (element) => {
-      // console.debug("endElement", element);
       let newElement: Element | string = currentElement;
       currentElement = stack.pop()!;
 
