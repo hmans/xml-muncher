@@ -35,63 +35,58 @@ const test = (name: string) => ({
   }),
 });
 
-describe(XMLMuncher, () => {
-  test("Basic empty elements")
-    .with("<foo />")
-    .query("element:foo")
-    .expect([{}]);
+test("Basic empty elements").with("<foo />").query("element:foo").expect([{}]);
 
-  test("Elements with text")
-    .with("<foo>foo</foo>")
-    .query("element:foo")
-    .expect(["foo"]);
+test("Elements with text")
+  .with("<foo>foo</foo>")
+  .query("element:foo")
+  .expect(["foo"]);
 
-  test("Elements with nested children")
-    .with("<foo><bar>Hello World</bar></foo>")
-    .query("element:foo")
-    .expect([{ bar: "Hello World" }]);
+test("Elements with nested children")
+  .with("<foo><bar>Hello World</bar></foo>")
+  .query("element:foo")
+  .expect([{ bar: "Hello World" }]);
 
-  test("Directly selecting the child")
-    .with("<foo><bar>Hello World</bar></foo>")
-    .query("element:bar")
-    .expect(["Hello World"]);
+test("Directly selecting the child")
+  .with("<foo><bar>Hello World</bar></foo>")
+  .query("element:bar")
+  .expect(["Hello World"]);
 
-  test("Multiple children of the same name")
-    .with("<items><item>One</item><item>Two</item></items>")
-    .query("element:items")
-    .expect([{ item: ["One", "Two"] }]);
+test("Multiple children of the same name")
+  .with("<items><item>One</item><item>Two</item></items>")
+  .query("element:items")
+  .expect([{ item: ["One", "Two"] }]);
 
-  test("Mixed text and element children, wHo doEs tHiS?")
-    .with("<foo>Hello<bar>World</bar></foo>")
-    .query("element:foo")
-    .expect([{ "#text": "Hello", bar: "World" }]);
+test("Mixed text and element children, wHo doEs tHiS?")
+  .with("<foo>Hello<bar>World</bar></foo>")
+  .query("element:foo")
+  .expect([{ "#text": "Hello", bar: "World" }]);
 
-  test("Attributes")
-    .with('<foo bar="baz" />')
-    .query("element:foo")
-    .expect([{ $bar: "baz" }]);
+test("Attributes")
+  .with('<foo bar="baz" />')
+  .query("element:foo")
+  .expect([{ $bar: "baz" }]);
 
-  test("Attributes with text")
-    .with('<foo bar="baz">Foo</foo>')
-    .query("element:foo")
-    .expect([{ "#text": "Foo", $bar: "baz" }]);
+test("Attributes with text")
+  .with('<foo bar="baz">Foo</foo>')
+  .query("element:foo")
+  .expect([{ "#text": "Foo", $bar: "baz" }]);
 
-  test("Attributes with nested children")
-    .with('<foo bar="baz"><child>Child</child></foo>')
-    .query("element:foo")
-    .expect([{ $bar: "baz", child: "Child" }]);
+test("Attributes with nested children")
+  .with('<foo bar="baz"><child>Child</child></foo>')
+  .query("element:foo")
+  .expect([{ $bar: "baz", child: "Child" }]);
 
-  /* Error handling */
+/* Error handling */
 
-  test("Invalid XML").with("<foo").query("element:foo").expect([]);
+test("Invalid XML").with("<foo").query("element:foo").expect([]);
 
-  test("Wrongly closed tags")
-    .with("<foo><bar></foo>")
-    .query("element:foo")
-    .expectError("mismatched tag");
+test("Wrongly closed tags")
+  .with("<foo><bar></foo>")
+  .query("element:foo")
+  .expectError("mismatched tag");
 
-  test("Invalid characters")
-    .with("<💩foo>foo</💩foo>")
-    .query("element:foo")
-    .expectError("not well-formed (invalid token)");
-});
+test("Invalid characters")
+  .with("<💩foo>foo</💩foo>")
+  .query("element:foo")
+  .expectError("not well-formed (invalid token)");
