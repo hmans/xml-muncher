@@ -33,4 +33,8 @@ describe(XMLMuncher, () => {
   extract("<foo><bar>Hello World</bar></foo>")
     .query("element:bar")
     .expect(["Hello World"]);
+
+  extract("<items><item>One</item><item>Two</item></items>")
+    .query("element:items")
+    .expect([{ item: ["One", "Two"] }]);
 });
