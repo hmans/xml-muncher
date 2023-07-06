@@ -1,13 +1,20 @@
 import expat from "node-expat";
 import EventEmitter from "node:events";
-import { createReadStream } from "node:fs";
+import { ReadStream, createReadStream } from "node:fs";
 
 type Element = Record<string, any>;
 
 export class XMLMuncher extends EventEmitter {
-  public parser = new expat.Parser("UTF-8");
+  public parser: expat.Parser;
 
-  async munchFile(filePath: string) {
+  constructor() {
+    super();
+
+    this.parser = new expat.Parser("UTF-8");
+    this.setupParser();
+  }
+
+  protected setupParser() {
     let currentElement: Element = {};
     const stack = new Array<Element>();
 
@@ -43,13 +50,19 @@ export class XMLMuncher extends EventEmitter {
 
       currentElement["#text"] = text;
     });
+  }
 
-    const input = createReadStream(filePath, {
-      encoding: "utf-8",
-    });
-
-    for await (const data of input) {
+  async munch(stream: ReadStream) {
+    for await (const data of stream) {
       this.parser.write(data);
     }
+  }
+
+  async munchFile(filePath: string) {
+    this.munch(
+      createReadStream(filePath, {
+        encoding: "utf-8",
+      })
+    );
   }
 }
