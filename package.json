@@ -1,10 +1,22 @@
 {
   "name": "xml-muncher",
   "version": "0.0.1",
-  "description": "Munches very large XML documents. Omnomnom.",
+  "description": "Munches very large XML documents. OmnomnomNOMNOM",
   "main": "dist/xml-muncher.cjs.js",
-  "keywords": [],
-  "author": "",
+  "repository": {
+    "url": "https://github.com/hmans/xml-muncher"
+  },
+  "keywords": [
+    "xml",
+    "streaming",
+    "data",
+    "expat"
+  ],
+  "author": {
+    "name": "Hendrik Mans",
+    "email": "hendrik@mans.de",
+    "url": "https://hmans.dev"
+  },
   "license": "ISC",
   "files": [
     "dist"
