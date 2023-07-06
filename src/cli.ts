@@ -6,13 +6,22 @@ process.on("SIGINT", async function () {
   process.exit();
 });
 
+let jobs = 0;
+
+const muncher = new XMLMuncher();
+
 function processJob(job: any) {
-  console.log("🎉 JOB:", job.title);
-  console.dir(job);
+  jobs++;
+  console.log(`🎉 JOB ${jobs}:`, job.title);
+  // console.dir(job);
+
+  if (jobs >= 10) {
+    muncher.stop();
+  }
 }
 
-await new XMLMuncher()
-  .on("path://jobs/job", processJob)
-  .munchFile("./test/files/stepstone1.xml");
+muncher.on("path://jobs/job", processJob);
+
+await muncher.munchFile("./test/files/stepstone1.xml");
 
 console.log("✅ Done!");

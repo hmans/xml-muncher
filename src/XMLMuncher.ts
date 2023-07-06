@@ -81,12 +81,24 @@ export class XMLMuncher extends EventEmitter {
 
   async munch(input: ReadStream | string) {
     if (typeof input === "string") {
-      this.parser.write(input);
+      /* Let's check if the parser is currently writable, and if we're
+      actually running. */
+      if (this.running && this.parser.writable) {
+        this.parser.write(input);
+      }
     } else {
+      /* Get chunks from the stream and feed them to the parser */
       for await (const data of input) {
-        this.parser.write(data);
+        this.munch(data);
       }
     }
+  }
+
+  running = true;
+
+  stop() {
+    this.running = false;
+    this.parser.stop();
   }
 
   async munchFile(filePath: string) {
