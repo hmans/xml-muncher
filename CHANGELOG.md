@@ -1,5 +1,11 @@
 # xml-muncher
 
+## 0.0.9
+
+### Patch Changes
+
+- 9666062: Update `vitest` dependency.
+
 ## 0.0.8
 
 ### Patch Changes
