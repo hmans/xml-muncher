@@ -1,4 +1,4 @@
-import { describe, expect, it } from "vitest";
+import { expect, test } from "vitest";
 import { XMLMuncher } from "../src/XMLMuncher";
 
 async function extractElements(xml: string, query: string) {
@@ -14,79 +14,70 @@ async function extractElements(xml: string, query: string) {
   return elements;
 }
 
-const test = (name: string) => ({
-  with: (xml: string) => ({
-    query: (query: string) => ({
-      expect: (result: any) => {
-        it(name, async () => {
-          const elements = await extractElements(xml, query);
-          expect(elements).toEqual(result);
-        });
-      },
+const given = (xml: string) => ({
+  query: (query: string) => ({
+    expect: async (result: any) => {
+      const elements = await extractElements(xml, query);
+      expect(elements).toEqual(result);
+    },
 
-      expectError: (error?: string) => {
-        it(name, () => {
-          expect(async () => {
-            await extractElements(xml, query);
-          }).rejects.toThrowError(error);
-        });
-      },
-    }),
+    expectError: (error?: string) => {
+      expect(async () => {
+        await extractElements(xml, query);
+      }).rejects.toThrowError(error);
+    },
   }),
 });
 
-test("Basic empty elements").with("<foo />").query("element:foo").expect([{}]);
+test("Basic empty elements", () =>
+  given("<foo />").query("element:foo").expect([{}]));
 
-test("Elements with text")
-  .with("<foo>foo</foo>")
-  .query("element:foo")
-  .expect(["foo"]);
+test("Elements with text", () =>
+  given("<foo>foo</foo>").query("element:foo").expect(["foo"]));
 
-test("Elements with nested children")
-  .with("<foo><bar>Hello World</bar></foo>")
-  .query("element:foo")
-  .expect([{ bar: "Hello World" }]);
+test("Elements with nested children", () =>
+  given("<foo><bar>Hello World</bar></foo>")
+    .query("element:foo")
+    .expect([{ bar: "Hello World" }]));
 
-test("Directly selecting the child")
-  .with("<foo><bar>Hello World</bar></foo>")
-  .query("element:bar")
-  .expect(["Hello World"]);
+test("Directly selecting the child", () =>
+  given("<foo><bar>Hello World</bar></foo>")
+    .query("element:bar")
+    .expect(["Hello World"]));
 
-test("Multiple children of the same name")
-  .with("<items><item>One</item><item>Two</item></items>")
-  .query("element:items")
-  .expect([{ item: ["One", "Two"] }]);
+test("Multiple children of the same name", () =>
+  given("<items><item>One</item><item>Two</item></items>")
+    .query("element:items")
+    .expect([{ item: ["One", "Two"] }]));
 
-test("Mixed text and element children, wHo doEs tHiS?")
-  .with("<foo>Hello<bar>World</bar></foo>")
-  .query("element:foo")
-  .expect([{ "#text": "Hello", bar: "World" }]);
+test("Mixed text and element children, wHo doEs tHiS?", () =>
+  given("<foo>Hello<bar>World</bar></foo>")
+    .query("element:foo")
+    .expect([{ "#text": "Hello", bar: "World" }]));
 
-test("Attributes")
-  .with('<foo bar="baz" />')
-  .query("element:foo")
-  .expect([{ $bar: "baz" }]);
+test("Attributes", () =>
+  given('<foo bar="baz" />')
+    .query("element:foo")
+    .expect([{ $bar: "baz" }]));
 
-test("Attributes with text")
-  .with('<foo bar="baz">Foo</foo>')
-  .query("element:foo")
-  .expect([{ "#text": "Foo", $bar: "baz" }]);
+test("Attributes with text", () =>
+  given('<foo bar="baz">Foo</foo>')
+    .query("element:foo")
+    .expect([{ "#text": "Foo", $bar: "baz" }]));
 
-test("Attributes with nested children")
-  .with('<foo bar="baz"><child>Child</child></foo>')
-  .query("element:foo")
-  .expect([{ $bar: "baz", child: "Child" }]);
+test("Attributes with nested children", () =>
+  given('<foo bar="baz"><child>Child</child></foo>')
+    .query("element:foo")
+    .expect([{ $bar: "baz", child: "Child" }]));
 
 /* Error handling */
 
-test("Invalid XML").with("<foo").query("element:foo").expect([]);
+test("Invalid XML", () => given("<foo").query("element:foo").expect([]));
 
-test("Wrongly closed tags")
-  .with("<foo><bar></foo>")
-  .query("element:foo")
-  .expectError("mismatched tag");
+test("Wrongly closed tags", () =>
+  given("<foo><bar></foo>").query("element:foo").expectError("mismatched tag"));
 
-test("Invalid characters")
-  .with("<💩foo>foo</💩foo>")
-  .query("element:foo")
-  .expectError("not well-formed (invalid token)");
+test("Invalid characters", () =>
+  given("<💩foo>foo</💩foo>")
+    .query("element:foo")
+    .expectError("not well-formed (invalid token)"));
