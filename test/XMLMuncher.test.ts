@@ -23,6 +23,14 @@ const test = (name: string) => ({
           expect(elements).toEqual(result);
         });
       },
+
+      expectError: () => {
+        it(name, async () => {
+          expect(async () => {
+            await extractElements(xml, query);
+          }).toThrowError("mismatched tag");
+        });
+      },
     }),
   }),
 });
@@ -72,4 +80,13 @@ describe(XMLMuncher, () => {
     .with('<foo bar="baz"><child>Child</child></foo>')
     .query("element:foo")
     .expect([{ $bar: "baz", child: "Child" }]);
+
+  /* Error handling */
+
+  test("Invalid XML").with("<foo").query("element:foo").expect([]);
+
+  // test("Wrongly closed tags")
+  //   .with("<foo><bar></foo>")
+  //   .query("element:foo")
+  //   .expectError();
 });

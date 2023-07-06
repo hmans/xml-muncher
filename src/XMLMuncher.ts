@@ -19,6 +19,10 @@ export class XMLMuncher extends EventEmitter {
     const stack = new Array<Element>();
     const nameStack = new Array<string>();
 
+    this.parser.on("error", (error) => {
+      throw new Error(error);
+    });
+
     this.parser.on("startElement", (element, attributes) => {
       /* Create a fresh element, full of hopes and dreams */
       stack.push(currentElement);
