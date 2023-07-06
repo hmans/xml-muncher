@@ -1,0 +1,25 @@
+{
+  "name": "xml-muncher",
+  "version": "1.0.0",
+  "description": "Munches very large XML documents. Omnomnom.",
+  "main": "dist/xml-muncher.cjs.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "files": [
+    "dist"
+  ],
+  "scripts": {
+    "build": "preconstruct build"
+  },
+  "devDependencies": {
+    "@preconstruct/cli": "^2.8.1",
+    "@types/node": "^20.4.0",
+    "tsx": "^3.12.7",
+    "typescript": "^5.1.6",
+    "vitest": "^0.32.4"
+  }
+}
