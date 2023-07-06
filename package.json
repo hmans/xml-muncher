@@ -1,8 +1,9 @@
 {
   "name": "xml-muncher",
-  "version": "0.0.3",
+  "version": "0.0.4",
   "description": "Munches very large XML documents. OmnomnomNOMNOM",
   "main": "dist/xml-muncher.cjs.js",
+  "module": "dist/xml-muncher.esm.js",
   "repository": {
     "url": "https://github.com/hmans/xml-muncher"
   },
