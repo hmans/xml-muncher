@@ -62,4 +62,14 @@ describe(XMLMuncher, () => {
     .with('<foo bar="baz" />')
     .query("element:foo")
     .expect([{ $bar: "baz" }]);
+
+  test("Attributes with text")
+    .with('<foo bar="baz">Foo</foo>')
+    .query("element:foo")
+    .expect([{ "#text": "Foo", $bar: "baz" }]);
+
+  test("Attributes with nested children")
+    .with('<foo bar="baz"><child>Child</child></foo>')
+    .query("element:foo")
+    .expect([{ $bar: "baz", child: "Child" }]);
 });
