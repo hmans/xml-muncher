@@ -24,11 +24,11 @@ const test = (name: string) => ({
         });
       },
 
-      expectError: () => {
-        it(name, async () => {
+      expectError: (error?: string) => {
+        it(name, () => {
           expect(async () => {
             await extractElements(xml, query);
-          }).toThrowError("mismatched tag");
+          }).rejects.toThrowError(error);
         });
       },
     }),
@@ -85,8 +85,8 @@ describe(XMLMuncher, () => {
 
   test("Invalid XML").with("<foo").query("element:foo").expect([]);
 
-  // test("Wrongly closed tags")
-  //   .with("<foo><bar></foo>")
-  //   .query("element:foo")
-  //   .expectError();
+  test("Wrongly closed tags")
+    .with("<foo><bar></foo>")
+    .query("element:foo")
+    .expectError("mismatched tag");
 });
