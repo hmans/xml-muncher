@@ -33,7 +33,7 @@
     "build": "preconstruct build",
     "test": "vitest run",
     "test:watch": "vitest watch",
-    "publish": "pnpm build && pnpm changeset publish"
+    "publish": "pnpm build && pnpm test && pnpm changeset publish"
   },
   "devDependencies": {
     "@babel/core": "^7.22.8",
