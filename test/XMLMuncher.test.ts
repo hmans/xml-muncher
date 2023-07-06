@@ -89,4 +89,9 @@ describe(XMLMuncher, () => {
     .with("<foo><bar></foo>")
     .query("element:foo")
     .expectError("mismatched tag");
+
+  test("Invalid characters")
+    .with("<💩foo>foo</💩foo>")
+    .query("element:foo")
+    .expectError("not well-formed (invalid token)");
 });
