@@ -17,10 +17,12 @@ export class XMLMuncher extends EventEmitter {
   protected setupParser() {
     let currentElement: Element = {};
     const stack = new Array<Element>();
+    const nameStack = new Array<string>();
 
     this.parser.on("startElement", (element, attributes) => {
       /* Create a fresh element, full of hopes and dreams */
       stack.push(currentElement);
+      nameStack.push(element);
       currentElement = {};
     });
 
@@ -42,7 +44,12 @@ export class XMLMuncher extends EventEmitter {
         currentElement[element] = [currentElement[element], newElement];
       }
 
+      const selector = nameStack.join(">");
+      console.log(selector);
+      nameStack.pop();
+
       this.emit(`element:${element}`, newElement);
+      this.emit(`selector:${selector}`, newElement);
     });
 
     this.parser.on("text", (text: string) => {
