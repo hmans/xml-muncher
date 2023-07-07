@@ -78,13 +78,21 @@ export class XMLMuncher extends EventEmitter {
     this.parser.on("endElement", (element) => {
       if (!recording) return;
 
-      let newElement: Element | string = currentElement;
+      let newElement: Element | string | null = currentElement;
       currentElement = elementStack.pop()!;
 
       /* If the element only contains a text attribute and nothing else,
       let's turn it into a string. */
       if (Object.keys(newElement).length === 1 && "#text" in newElement) {
         newElement = newElement["#text"];
+      }
+
+      /* If the element is an empty object, let's turn it into null. */
+      if (
+        typeof newElement === "object" &&
+        Object.keys(newElement as object).length === 0
+      ) {
+        newElement = null;
       }
 
       /* Sort the new element into the current element */

@@ -26,7 +26,7 @@ const given = (xml: string) => ({
 
 describe("parsing", () => {
   test("Basic empty elements", () =>
-    given("<foo />").query("element:foo").expect([{}]));
+    given("<foo />").query("element:foo").expect([null]));
 
   test("Elements with text", () =>
     given("<foo>foo</foo>").query("element:foo").expect(["foo"]));
