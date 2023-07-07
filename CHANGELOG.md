@@ -1,5 +1,11 @@
 # xml-muncher
 
+## 0.0.12
+
+### Patch Changes
+
+- d0775a6: Optimize memory usage by inspecting the events the user actually subscribed to.
+
 ## 0.0.11
 
 ### Patch Changes
