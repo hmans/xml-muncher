@@ -5,7 +5,7 @@
 ## Basic Usage
 
 ```js
-import { XMLMuncher } from "xml-muncher";
+import XMLMuncher from "xml-muncher";
 
 const muncher = new XMLMuncher();
 
