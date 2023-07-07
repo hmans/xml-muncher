@@ -15,10 +15,36 @@ export class XMLMuncher extends EventEmitter {
     this.setupParser();
   }
 
+  protected hasEvents(...names: string[]) {
+    return names.some((name) => this.listenerCount(name) > 0);
+  }
+
   protected setupParser() {
+    /** The current element we're filling with data. */
     let currentElement: Element = {};
-    const stack = new Array<Element>();
+
+    /**
+     * Are we currently recording? This is controlled through the events
+     * the user is subscribed to to make sure we don't unneccessarily fill
+     * RAM with data we never need.
+     */
+    let recording = false;
+
+    /**
+     * A stack of elements we've filled with data.
+     */
+    const elementStack = new Array<Element>();
+
+    /**
+     * A stack of element names we've encountered. This is primarily used
+     * to build the path for the path event.
+     */
     const nameStack = new Array<string>();
+
+    /**
+     * Generate the current path from the name stack.
+     */
+    const getCurrentPath = () => "//" + nameStack.join("/");
 
     /* If there's any sort of error, immediately throw. */
     this.parser.on("error", (error) => {
@@ -26,9 +52,21 @@ export class XMLMuncher extends EventEmitter {
     });
 
     this.parser.on("startElement", (element, attributes) => {
-      /* Create a fresh element, full of hopes and dreams */
-      stack.push(currentElement);
       nameStack.push(element);
+
+      /* Test if this element is something the user requested. If so,
+      enable recording mode. */
+      if (this.hasEvents(`element:${element}`, `path:${getCurrentPath()}`)) {
+        recording = true;
+      }
+
+      /* Abort if we're not recording. */
+      if (!recording) return;
+
+      /* We're going to push the current element onto the stack and create a new
+      one. The new element will eventually become a property on the previous element,
+      but this happens in the `endElement` event handler. */
+      elementStack.push(currentElement);
       currentElement = {};
 
       /* Add attributes to the element */
@@ -38,8 +76,10 @@ export class XMLMuncher extends EventEmitter {
     });
 
     this.parser.on("endElement", (element) => {
+      if (!recording) return;
+
       let newElement: Element | string = currentElement;
-      currentElement = stack.pop()!;
+      currentElement = elementStack.pop()!;
 
       /* If the element only contains a text attribute and nothing else,
       let's turn it into a string. */
@@ -63,11 +103,22 @@ export class XMLMuncher extends EventEmitter {
       this.emit(`element:${element}`, newElement);
 
       /* Emit path event */
-      this.emit(`path:${"//" + nameStack.join("/")}`, newElement);
+      const path = getCurrentPath();
+      this.emit(`path:${path}`, newElement);
       nameStack.pop();
+
+      /* If the user was listening for this element, stop recording, and wipe the state. */
+      if (this.hasEvents(`element:${element}`, `path:${path}`)) {
+        recording = false;
+        currentElement = {};
+        elementStack.length = 0;
+      }
     });
 
     this.parser.on("text", (text: string) => {
+      /* Early exit if we're not recording. */
+      if (!recording) return;
+
       /* There's going to be a lot of text nodes with just spaces and newlines,
       so let's just ignore those. */
       if (text.trim() === "") return;
