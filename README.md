@@ -7,10 +7,18 @@
 ```js
 import XMLMuncher from "xml-muncher";
 
+/* Create an instance of XML Muncher. */
 const muncher = new XMLMuncher();
 
+/* Ask it to extract elements at specific paths. */
 muncher.on("path://items/item", (item) => {
   console.log(item.title);
+});
+
+/* Alternatively, you can ask it to extract elements of a specific
+name, regardless of their location in the feed. */
+muncher.on("element:user", (user) => {
+  console.log(user.name);
 });
 
 await muncher.munchFile("very_large_file.xml");
