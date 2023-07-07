@@ -1,5 +1,5 @@
 import { describe, expect, test } from "vitest";
-import { XMLMuncher } from "../src/XMLMuncher";
+import XMLMuncher from "../src";
 
 function extractElements(xml: string, query: string) {
   const elements: any[] = [];
