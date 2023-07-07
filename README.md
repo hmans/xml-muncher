@@ -1,6 +1,6 @@
 # xml-muncher
 
-`xml-muncher` processes potentially humongous XML documents and extracts the elements you're interested in without blowing up your memory usage. It builds on top of `node-expat` and provides a simple API to retrieve just the data you're interested in.
+`xml-muncher` processes potentially humongous XML documents and extracts the elements you're interested in without blowing up your memory usage. It builds on top of `node-expat` and provides a simple event-based API to retrieve just the data you care about.
 
 ## Basic Usage
 
