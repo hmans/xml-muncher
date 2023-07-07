@@ -1,5 +1,11 @@
 # xml-muncher
 
+## 0.0.13
+
+### Patch Changes
+
+- 5ac80f3: The `XMLMuncher` class is now the default export of the package.
+
 ## 0.0.12
 
 ### Patch Changes
