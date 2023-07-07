@@ -19,8 +19,8 @@ await muncher.munchFile("very_large_file.xml");
 ## TODO
 
 - [ ] Flesh out documentation
-- [ ] Allow the munching to be paused, resumed, and aborted
-- [ ] Make found elements available through an async iterator
+- [ ] Allow the munching to be paused and resumed
+- [ ] Provide an async iterator that yields extracted items
 
 ## License
 
