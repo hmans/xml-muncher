@@ -1,5 +1,11 @@
 # xml-muncher
 
+## 0.0.15
+
+### Patch Changes
+
+- 7b31321: Empty elements are now converted to `null`.
+
 ## 0.0.14
 
 ### Patch Changes
