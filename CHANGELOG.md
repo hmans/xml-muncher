@@ -1,5 +1,11 @@
 # xml-muncher
 
+## 0.0.14
+
+### Patch Changes
+
+- bec492d: Fix README to reflect API change :-)
+
 ## 0.0.13
 
 ### Patch Changes
