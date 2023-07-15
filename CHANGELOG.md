@@ -1,5 +1,11 @@
 # xml-muncher
 
+## 0.0.16
+
+### Patch Changes
+
+- 3ff8153: Provide CJS as well as ESM builds; don't mark the entire package as module: true.
+
 ## 0.0.15
 
 ### Patch Changes
