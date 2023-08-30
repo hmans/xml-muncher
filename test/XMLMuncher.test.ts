@@ -36,6 +36,11 @@ describe("parsing", () => {
       .query("element:foo")
       .expect([{ bar: "Hello World" }]));
 
+  test("Elements with CDATA", () =>
+    given("<foo><![CDATA[This is a test]]></foo>")
+      .query("element:foo")
+      .expect(["This is a test"]));
+
   test("Directly selecting the child", () =>
     given("<foo><bar>Hello World</bar></foo>")
       .query("element:bar")
