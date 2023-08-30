@@ -41,6 +41,11 @@ describe("parsing", () => {
       .query("element:foo")
       .expect(["This is a test"]));
 
+  test("Elements with CDATA that include closing square brackets", () =>
+    given("<foo><![CDATA[This is a [funky] test]]></foo>")
+      .query("element:foo")
+      .expect(["This is a [funky] test"]));
+
   test("Directly selecting the child", () =>
     given("<foo><bar>Hello World</bar></foo>")
       .query("element:bar")

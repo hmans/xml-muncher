@@ -131,7 +131,7 @@ export class XMLMuncher extends EventEmitter {
       so let's just ignore those. */
       if (text.trim() === "") return;
 
-      currentElement["#text"] = text;
+      currentElement["#text"] = (currentElement["#text"] || "") + text;
     });
   }
 
