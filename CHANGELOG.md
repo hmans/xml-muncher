@@ -1,5 +1,11 @@
 # xml-muncher
 
+## 0.0.17
+
+### Patch Changes
+
+- 10ddbcf: Fixes handling of longer text/CDATA nodes that the underlying expat parser was splitting into multiple chunks.
+
 ## 0.0.16
 
 ### Patch Changes
